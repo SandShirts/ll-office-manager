@@ -6,21 +6,20 @@
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
 <title>LL Office Manager</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1b1b1b}
-body{background:#fff url('bg.webp') center top/900px auto repeat;min-height:100vh}
-.top{background:#fde2ec;color:#5b0f2e;padding:calc(14px + env(safe-area-inset-top)) 16px 14px;display:flex;align-items:center;gap:12px;border-bottom:3px solid #f9a8c9}
-.top img{width:46px;height:46px;border-radius:9px;background:#fff}.top b{font-size:21px}.top span{display:block;font-size:13px;color:#9d174d;font-weight:700}
-.wrap{max-width:520px;margin:0 auto;padding:18px 16px}
-.go{display:block;width:100%;text-align:center;background:linear-gradient(135deg,#16a34a,#15803d);color:#fff;font-weight:900;font-size:20px;border-radius:16px;padding:22px 12px;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.18)}
-.note{background:rgba(255,255,255,.95);border-radius:12px;padding:12px 14px;font-size:14px;color:#374151;line-height:1.5;margin-top:16px}
+/* 10/20: the Office Manager opens INSIDE this app (it used to jump to script.google.com, which made the phone show
+   its "tap to copy the URL" bar at the top because the app was leaving its own site) */
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#fde2ec;font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+#app{position:fixed;top:env(safe-area-inset-top);left:0;right:0;bottom:0;width:100%;height:calc(100% - env(safe-area-inset-top));border:0;background:#fff}
+#wait{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#5b0f2e;font-weight:800;font-size:18px;background:#fde2ec}
+#wait img{width:84px;height:84px;border-radius:16px;background:#fff}
+#wait a{font-size:14px;color:#9d174d;font-weight:700}
 </style></head><body>
-<div class="top"><img src="icon-192.png" alt=""><div><b>LL Office Manager</b><span>Latoison Law</span></div></div>
-<div class="wrap">
-<a class="go" id="go" href="#">OPEN LL OFFICE MANAGER</a>
-<div class="note">Payments, Calendar, Court Reminders and New Potentials. Sign in with your office PIN.</div>
-</div>
+<div id="wait"><img src="icon-192.png" alt=""><div>Opening LL Office Manager…</div><a id="alt" href="#" style="display:none">Taking too long? Tap here.</a></div>
+<iframe id="app" title="LL Office Manager" allow="clipboard-write; camera; microphone"></iframe>
 <script>
-const OFFICE='https://script.google.com/a/macros/latoisonlaw.com/s/AKfycbykyjHO-Z5B9KknvJraVK7fA1di4u0DOtP3qLqaZhKDh-dCKna2-pk7sX7T6H0Dl15q/exec';
-document.getElementById('go').href=OFFICE+'?app=phone';
+const OFFICE='https://script.google.com/a/macros/latoisonlaw.com/s/AKfycbykyjHO-Z5B9KknvJraVK7fA1di4u0DOtP3qLqaZhKDh-dCKna2-pk7sX7T6H0Dl15q/exec?app=phone';
+const f=document.getElementById('app'),w=document.getElementById('wait'),alt=document.getElementById('alt');
+alt.href=OFFICE;f.addEventListener('load',()=>{w.style.display='none'});f.src=OFFICE;
+setTimeout(()=>{alt.style.display='block'},12000);
 </script>
 </body></html>
